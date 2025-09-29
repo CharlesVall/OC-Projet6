@@ -7,6 +7,10 @@ services:
       - "3000:3000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/ma_base
+      - ADMIN_KEY=maSuperClefSecrete
+    volumes:
+      - .:/app
+      - /app/node_modules
     depends_on:
       - mongo
 
@@ -19,4 +23,3 @@ services:
 
 volumes:
   mongo_data:
-
