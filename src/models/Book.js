@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const { Types } = require('mongoose');
 
-const ratingSchema = new Schema({
+const ratingSchema = new mongoose.Schema({
   userId: { type: Types.ObjectId, ref: 'User', required: true },
   grade: { type: Number, required: true, min: 0, max: 5 }
 });

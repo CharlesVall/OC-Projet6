@@ -4,10 +4,12 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "4000:4000"
     environment:
+      - PORT=4000
       - MONGO_URI=mongodb://mongo:27017/ma_base
       - ADMIN_KEY=maSuperClefSecrete
+      - JWT_SECRET=monSuperSel
     volumes:
       - .:/app
       - /app/node_modules

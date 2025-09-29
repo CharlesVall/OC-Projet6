@@ -1,27 +1,27 @@
 const User = require('../models/User');
 
 class UserRepository {
-  async create(userData) {
+  async createUser(userData) {
     const user = new User(userData);
     return await user.save();
   }
 
-  async findByEmail(email) {
+  async findUserByEmail(email) {
     return await User.findOne({ email });
   }
 
-  async findById(id) {
+  async findUserById(id) {
     return await User.findById(id);
   }
 
-  async findAll() {
+  async findAllUser() {
     return await User.find();
   }
 
-  async deleteByEmail(email) {
+  async deleteUserByEmail(email) {
     return await User.deleteOne({ email })
   }  
-  async deleteById(id) {
+  async deleteUserById(id) {
     return await User.findByIdAndDelete(id);
   }
 }
