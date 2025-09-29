@@ -1,47 +1,43 @@
 # Mon Vieux Grimoire
 
-Voici mon répo du projet numéro 6 de la formation développeur web d'OpenClassRoom
+Voici mon répo du projet numéro 6 de la formation développeur web d'OpenClassRooms
 
 ## Installation
 
 
 ### Build et lancer le backend
-
-#Lancer le build
+```bash
 docker-compose up --build
+```
 
 
-
-
-#Stopper les conteneurs
-
+### Stopper les conteneurs
+```bash
 docker-compose stop
+```
 
 
-
-#Arrêter et supprimer les conteneurs
-
-docker-compose down
-
-
-
-#Supprimer les conteneurs et volumes
-
+### Supprimer les conteneurs et volumes
+```bash
 docker-compose down -v
+```
 
 
-
-#Supprimer l’image Docker
-
+### Supprimer l’image Docker
+```bash
 docker rmi mon-projet_app
+```
+
+
+Le BackEnd écoute sur le port 3000.
+
 
 
 
 ## 📝 Description
 Vous êtes développeur back-end en freelance depuis maintenant un an dans la région de Lille.
 
-vous êtes contacté pour travailler sur un projet en mutualisant vos compétences front / back sur un tout nouveau,
+Vous êtes contacté pour travailler sur un projet en mutualisant vos compétences front / back sur un tout nouveau,
 projet de site internet.
-
 
 
