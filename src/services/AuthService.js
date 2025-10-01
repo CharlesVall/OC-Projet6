@@ -12,7 +12,7 @@ class AuthService {
     if (existingUser) throw new Error('Email already used');
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = await userRepository.create({ email, password: hashedPassword })
+    const newUser = await userRepository.createUser({ email, password: hashedPassword })
     return newUser
   }
   

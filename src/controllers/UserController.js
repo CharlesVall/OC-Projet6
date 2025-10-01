@@ -21,6 +21,7 @@ class UserController {
 
       res.status(201).json({
         message: "User deleted",
+        user: email
       })
     } catch(error) {
       res.status(400).json({error: error.message})
