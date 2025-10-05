@@ -1,5 +1,7 @@
 const bookRepository = require('../repositories/BookRepository')
-const BookValidator = require('../utils/bookValidator')
+const ImageFileManager = require('../utils/ImageFileManager')
+const BookValidator = require('../utils/BookValidator')
+const bookDataUpdate = require('../utils/boodDataUpdate')
 const fs = require('fs/promises');
 const path = require('path');
 
@@ -26,11 +28,30 @@ class BookService {
     bookData.year = Number.parseInt(bookData.year)
     BookValidator.validateBookData(bookData);
 
-    const imageUrl = `http://localhost:4000/uploads/images/${imageFile.filename}`
-    bookData.imageUrl = imageUrl
+    bookData.imageUrl = ImageFileManager.createImageUrl(imageFile)
 
     const createdBook = await bookRepository.createBook(bookData)
     return createdBook
+  }
+  
+  async updateBookDataById(bookId, updateData, imageFile) {
+    const book = await bookRepository.findBookById(bookId);
+    if (!book) throw new Error('Livre introuvable');
+
+    bookDataUpdate(book, updateData)
+    BookValidator.validateUpdateData(book)
+    
+    if (imageFile) {
+      updateData.imageUrl = ImageFileManager.createImageUrl(imageFile)
+      const deletedFile = await ImageFileManager.deleteImageByUrl(book.imageUrl)
+      console.log('fichier complet supprimé :', deletedFile);
+    }
+    
+    const updatedBook = await bookRepository.updateBookById(bookId, updateData);
+
+    console.log('Updated book :', updatedBook)
+
+    return updatedBook;
   }
 
   async deleteBookById(bookId) {
@@ -39,10 +60,8 @@ class BookService {
 
     await bookRepository.deleteBookById(bookId);
 
-    const file = book.imageUrl && path.join(__dirname, `../../uploads/images/${book.imageUrl.split('/').pop()}`);
-    console.log('fichier complet supprimé :', file);
-
-    if (file) await fs.unlink(file);
+    const deletedFile = await ImageFileManager.deleteImageByUrl(book.imageUrl)
+    console.log('fichier complet supprimé :', deletedFile);
 
     return book;
   }

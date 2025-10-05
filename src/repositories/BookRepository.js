@@ -14,7 +14,7 @@ class BookRepository {
     return await Book.find();
   }
 
-  async updateBook(id, updateData) {
+  async updateBookById(id, updateData) {
     return await Book.findByIdAndUpdate(id, updateData, { new: true });
   }
 

@@ -19,7 +19,7 @@ class UserController {
 
       const user = await userService.deleteUserByEmail(email)
 
-      res.status(201).json({
+      res.status(204).json({
         message: "User deleted",
         user: email
       })

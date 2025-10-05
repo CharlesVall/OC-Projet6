@@ -9,8 +9,9 @@ router.get('/bestrating', bookController.getBestRatedBooks);
 router.get('/:id', bookController.getBookById);
 
 router.post('/', authMiddleware, uploadMiddleware.single("image"), bookController.publishBook);
-router.delete('/:id', bookController.deleteBookById);
-router.post('/:id/rating', bookController.postRatingById);
+router.put('/:id', authMiddleware, uploadMiddleware.single("image"), bookController.updateBookDataById);
+router.delete('/:id', authMiddleware, bookController.deleteBookById);
+router.post('/:id/rating', authMiddleware, bookController.postRatingById); // todo
 
 
 module.exports = router;

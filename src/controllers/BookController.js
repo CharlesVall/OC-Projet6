@@ -15,11 +15,11 @@ class BookController {
 
   async getBookById(req, res) {
     try {
-      const bookData = await bookService.getBookById(req.params.id)
+      const book = await bookService.getBookById(req.params.id)
 
-      res.status(200).json({
-        bookData
-      })
+      res.status(200).json(
+        book
+      )
     } catch(error) {
       res.status(400).json({error: error.message})
     }
@@ -29,9 +29,9 @@ class BookController {
     try {
       const bestRatedBookList = await bookService.getBestRatedBooks()
 
-      res.status(200).json({
+      res.status(200).json(
         bestRatedBookList
-      })
+      )
     } catch(error) {
       res.status(400).json({error: error.message})
     }
@@ -55,14 +55,31 @@ class BookController {
       res.status(400).json({error: error.message})
     }
   }
+  
+  async updateBookDataById(req, res) {
+    try {
+      const updateData = req.body.book ? JSON.parse(req.body.book) : req.body;
+
+      const imageFile = req.file;
+
+      const modifiedBook = await bookService.updateBookDataById(req.params.id, updateData, imageFile)
+
+      console.log("Modified book :", modifiedBook)
+
+      res.status(201).json({
+        message: "Book have been modified",
+      });
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
 
   async deleteBookById(req, res) {
     try {
       const deletedBook = await bookService.deleteBookById(req.params.id)
-
       console.log("Deleted book :", deletedBook)
 
-      res.status(200).json({
+      res.status(204).json({
         message: "Book deleted",
       });
     } catch(error) {
