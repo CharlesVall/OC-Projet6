@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN apk add --no-cache python3 make g++ \
-  && npm install \
+RUN npm install \
+  && apk add --no-cache python3 make g++ \
   && apk del python3 make g++
 
 COPY . .

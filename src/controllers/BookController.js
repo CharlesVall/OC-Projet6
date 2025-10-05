@@ -3,11 +3,82 @@ const bookService = require('../services/BookService')
 class BookController {
   async getBookList(req, res) {
     try {
-      const bookList = await bookService.getUserList()
+      const bookList = await bookService.getBookList()
+
+      res.status(200).json(
+        bookList
+      )
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
+
+  async getBookById(req, res) {
+    try {
+      const bookData = await bookService.getBookById(req.params.id)
+
+      res.status(200).json({
+        bookData
+      })
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
+
+  async getBestRatedBooks(req, res) {
+    try {
+      const bestRatedBookList = await bookService.getBestRatedBooks()
+
+      res.status(200).json({
+        bestRatedBookList
+      })
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
+
+  async publishBook(req, res) {
+    try {
+      const bookData = JSON.parse(req.body.book);
+      const imageFile = req.file;
+
+      console.log("Image info:", imageFile?.originalname);
+      
+      const createdBook = await bookService.publishBook(bookData, imageFile)
+
+      console.log("Created Book data:", createdBook.title);
 
       res.status(201).json({
-        bookList
-      })
+        message: "Book created"
+      });
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
+
+  async deleteBookById(req, res) {
+    try {
+      const deletedBook = await bookService.deleteBookById(req.params.id)
+
+      console.log("Deleted book :", deletedBook)
+
+      res.status(200).json({
+        message: "Book deleted",
+      });
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+  }
+
+  async postRatingById(req, res) {
+    try {
+      const postedRating = await bookService.deleteBookById(req.params.id)
+
+      console.log("Posted rating :", postedRating)
+
+      res.status(200).json({
+        message: "rating have been post",
+      });
     } catch(error) {
       res.status(400).json({error: error.message})
     }
