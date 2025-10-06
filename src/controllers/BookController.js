@@ -89,13 +89,12 @@ class BookController {
 
   async postRatingById(req, res) {
     try {
-      const postedRating = await bookService.deleteBookById(req.params.id)
+      const { userId, rating } = req.body
+      const bookWithNewRating = await bookService.postRatingById(req.params.id, userId, rating)
 
-      console.log("Posted rating :", postedRating)
-
-      res.status(200).json({
-        message: "rating have been post",
-      });
+      res.status(200).json(
+        bookWithNewRating
+      );
     } catch(error) {
       res.status(400).json({error: error.message})
     }

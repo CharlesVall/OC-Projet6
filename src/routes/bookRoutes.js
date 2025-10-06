@@ -15,8 +15,3 @@ router.post('/:id/rating', authMiddleware, bookController.postRatingById); // to
 
 
 module.exports = router;
-/*router.post('/',
-  authMiddlewares,
-  uploadMiddlewares.single("image"),
-  bookController.publishBook
-);*/

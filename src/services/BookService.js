@@ -2,6 +2,7 @@ const bookRepository = require('../repositories/BookRepository')
 const ImageFileManager = require('../utils/ImageFileManager')
 const BookValidator = require('../utils/BookValidator')
 const bookDataUpdate = require('../utils/boodDataUpdate')
+const calculateAverage = require('../utils/calculateAverage')
 const fs = require('fs/promises');
 const path = require('path');
 
@@ -65,29 +66,38 @@ class BookService {
 
     return book;
   }
+
+  async postRatingById(bookId, userId, rating) {
+    const book = await bookRepository.findBookById(bookId);
+    if (!book) throw new Error('Livre introuvable');
+
+    const grade = Number.parseInt(rating);
+    if (Number.isNaN(grade)) throw new Error('La note doit être un nombre');
+
+    if (book.ratings.some(rating => rating.userId.toString() === userId.toString())) {
+      throw new Error('Cet utilisateur a déjà noté ce livre');
+    }
+
+    const newRating = { userId, grade };
+
+    const updatedRatings = [...book.ratings, newRating];
+    const newAverageRating = calculateAverage(updatedRatings.map(rating => rating.grade));
+
+    const updateData = {
+      ratings: updatedRatings,
+      averageRating: newAverageRating,
+    };
+
+    const updatedBook = await bookRepository.updateBookById(bookId, updateData);
+
+    console.log(`
+      Rating added by ${userId} for "${book.title}" 
+      => averageRating : ${newAverageRating.toFixed(2)}
+    `);
+
+    return updatedBook;
+  }
+
 }
 
 module.exports = new BookService();
-
-/*
-{"message":"Book created",
-"book":{
-  "userId":"68dd7035f6e44e7c026ad59e",
-    "title":"dsfgdfg","author":"fgdsfg",
-    "year":"ssdfgsdfg",
-    "genre":"sdfgsdg",
-    "ratings":[{"userId":"68dd7035f6e44e7c026ad59e","grade":3}],
-    "averageRating":3},
-  "image":"abajour-tahina.png"}
-*/
-/*async function deleteBookById(bookId) {
-  const book = await bookRepository.getBookById(bookId);
-  if (!book) throw new Error('Livre introuvable');
-
-  await bookRepository.deleteBookById(bookId);
-  if (book.imageUrl)
-    await fs.unlink(path.join(__dirname, '../../uploads/images', book.imageUrl.split('/').pop()));
-
-  return book;
-}
-*/
