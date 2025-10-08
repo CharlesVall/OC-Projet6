@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const uploadMiddleware = require('../middlewares/UploadFileMiddleware')
+const uploadMiddleware = require('../middlewares/uploadFileMiddleware')
 const authMiddleware = require('../middlewares/authMiddleware')
 const bookController = require('../controllers/BookController');
 
@@ -11,7 +11,7 @@ router.get('/:id', bookController.getBookById);
 router.post('/', authMiddleware, uploadMiddleware.single("image"), bookController.publishBook);
 router.put('/:id', authMiddleware, uploadMiddleware.single("image"), bookController.updateBookDataById);
 router.delete('/:id', authMiddleware, bookController.deleteBookById);
-router.post('/:id/rating', authMiddleware, bookController.postRatingById); // todo
+router.post('/:id/rating', authMiddleware, bookController.postRatingById);
 
 
 module.exports = router;

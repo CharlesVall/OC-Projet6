@@ -1,10 +1,8 @@
 const bookRepository = require('../repositories/BookRepository')
 const ImageFileManager = require('../utils/ImageFileManager')
 const BookValidator = require('../utils/BookValidator')
-const bookDataUpdate = require('../utils/boodDataUpdate')
+const bookDataUpdate = require('../utils/bookDataUpdate')
 const calculateAverage = require('../utils/calculateAverage')
-const fs = require('fs/promises');
-const path = require('path');
 
 
 class BookService {
