@@ -1,5 +1,6 @@
 services:
   app:
+    image: oc-projet6-backend
     build: .
     ports:
       - "4000:4000"

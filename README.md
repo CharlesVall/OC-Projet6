@@ -2,7 +2,15 @@
 
 Voici mon répo du projet numéro 6 de la formation développeur web d'OpenClassRooms
 
-## Installation
+## Configuration
+
+Le projet nécessite un fichier `.env`.
+
+```bash
+cp .env.template .env
+```
+
+## Lancement
 
 
 ### Build et lancer le backend
@@ -25,7 +33,7 @@ docker-compose down -v
 
 ### Supprimer l’image Docker
 ```bash
-docker rmi mon-projet_app
+docker rmi oc-projet6-backend
 ```
 
 
